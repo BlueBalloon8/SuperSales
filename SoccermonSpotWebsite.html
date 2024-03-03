@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My E-Commerce Website</title>
+    <style>
+        /* Your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        .product {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .product h3 {
+            margin-top: 0;
+        }
+        .product p {
+            margin-top: 5px;
+        }
+        .product button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .product button:hover {
+            background-color: #0056b3;
+        }
+        #cart {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        #cart h2 {
+            margin-top: 0;
+        }
+        #cart-items {
+            list-style-type: none;
+            padding: 0;
+        }
+        #cart-items li {
+            margin-bottom: 10px;
+        }
+        #total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #payment {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            display: none;
+        }
+        #payment h2 {
+            margin-top: 0;
+        }
+        #payment-forms {
+            display: flex;
+            justify-content: space-between;
+        }
+        #payment-forms form {
+            flex: 0 0 48%;
+        }
+        #payment-forms form input[type="submit"] {
+            width: 100%;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #payment-forms form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My SoccermonSpot Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="shop">
+            <h2>Shop</h2>
+            <!-- Product listings -->
+            <div class="product">
+                <h3>Pokemon Cards</h3>
+                <p>$30</p>
+                <button onclick="addToCart('Pokemon Cards', 30)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <h3>Product 2</h3>
+                <p>$10</p>
+                <button onclick="addToCart('Soccer Cards', 10)">Add to Cart</button>
+            </div>
+            <!-- Other products -->
+        </section>
+
+        <section id="cart">
+            <h2>Shopping Cart</h2>
+            <ul id="cart-items"></ul>
+            <div id="total">Total: $0</div>
+            <button onclick="checkout()">Checkout</button>
+        </section>
+
+        <section id="payment">
+            <h2>Payment</h2>
+            <div id="payment-forms">
+                <form id="credit-card-payment" action="process_credit_card_payment.php" method="POST">
+                    <h3>Credit Card</h3>
+                    <label for="card-number">Card Number:</label><br>
+                    <input type="text" id="card-number" name="card-number" required><br>
+                    <!-- Other credit card fields -->
+                    <input type="submit" value="Pay with Credit Card">
+                </form>
+
+                <form id="paypal-payment" action="process_paypal_payment.php" method="POST">
+                    <h3>PayPal</h3>
+                    <!-- PayPal fields -->
+                    <input type="submit" value="Pay with PayPal">
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My E-Commerce Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function addToCart(itemName, price) {
+            cart.push({ name: itemName, price: price });
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartElement = document.getElementById('cart-items');
+            cartElement.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} - $${item.price}`;
+                cartElement.appendChild(li);
+                total += item.price;
+            });
+            document.getElementById('total').textContent = `Total: $${total}`;
+            document.getElementById('cart').style.display = 'block';
+        }
+
+        function checkout() {
+            // Show payment section
+            document.getElementById('shop').style.display = 'none';
+            document.getElementById('cart').style.display = 'none';
+            document.getElementById('payment').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
